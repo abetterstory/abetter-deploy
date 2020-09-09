@@ -1,0 +1,29 @@
+{
+    "name": "abetter/deploy",
+    "description": "A Better Laravel Deployer script, for exceptionally fast web applications.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Johan Sjöland",
+            "email": "johan@sjoland.com"
+        }
+    ],
+    "require": {
+		"deployer/deployer": "^6.7"
+	},
+	"autoload": {
+		"psr-4": {
+			"ABetter\\Deploy\\": "src/"
+		},
+		"files": [
+			"src/helpers.php"
+		]
+	},
+	"extra": {
+        "laravel": {
+            "providers": [
+                "ABetter\\Deploy\\ServiceProvider"
+            ]
+        }
+    }
+}
