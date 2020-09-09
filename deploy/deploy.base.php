@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 require 'recipe/laravel.php';
 require __ROOT__.'/vendor/autoload.php';
 
-$dotenv = \Dotenv\Dotenv::create(__ROOT__);
+$dotenv = \Dotenv\Dotenv::createImmutable(__ROOT__);
 if (is_file(__ROOT__.'/.env')) $dotenv->load();
 
 // Project
@@ -42,7 +42,7 @@ add('writable_dirs', [
 ]);
 
 // Hosts
-host('local')->stage('local')->hostname('127.0.0.1')->set('server','127.0.0.1')->set('deploy_path','');
+host('local')->stage('local')->hostname('127.0.0.1')->set('server','127.0.0.1')->set('deploy_path','')->set('deploy_unlock',TRUE);
 if ($s = env('DP_DEV_SERVER')) {
 	host('dev')->stage('dev')->hostname($s)->set('server',$s)->set('deploy_path',env('DP_DEV_PATH'))->set('deploy_unlock',env('DP_DEV_UNLOCK'))->set('branch',$b=env('DP_DEV_BRANCH')?:get('branch'));
 }
@@ -81,6 +81,7 @@ task('hello', function () {
 	writeRun("pwd","destination");
     writeLine("Hello world, ready to go @ ".ucwords($stage));
 	writeLine(ucwords($stage).' is '.(($lock)?'LOCKED':'OPEN').' for push! (set DP_'.strtoupper($stage).'_UNLOCK in .ENV)');
+	/*
 	writeLine("Available tasks:");
 	writeln("> dep setuponce local");
 	writeln("> dep reset local");
@@ -100,6 +101,7 @@ task('hello', function () {
 	writeln("> dep service $stage");
 	writeln("> dep service:aws $stage");
 	writeln("> dep aws $stage");
+	*/
 });
 
 // Tasks / Setup
