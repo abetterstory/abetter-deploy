@@ -46,6 +46,9 @@ host('local')->stage('local')->hostname('127.0.0.1')->set('server','127.0.0.1')-
 if ($s = env('DP_DEV_SERVER')) {
 	host('dev')->stage('dev')->hostname($s)->set('server',$s)->set('deploy_path',env('DP_DEV_PATH'))->set('deploy_unlock',env('DP_DEV_UNLOCK'))->set('branch',$b=env('DP_DEV_BRANCH')?:get('branch'));
 }
+if ($s = env('DP_DEMO_SERVER')) {
+	host('demo')->stage('demo')->hostname($s)->set('server',$s)->set('deploy_path',env('DP_DEMO_PATH'))->set('deploy_unlock',env('DP_DEMO_UNLOCK'))->set('branch',$b=env('DP_DEMO_BRANCH')?:get('branch'));
+}
 if ($s = env('DP_STAGE_SERVER')) {
 	host('stage')->stage('stage')->hostname($s)->set('server',$s)->set('deploy_path',env('DP_STAGE_PATH'))->set('deploy_unlock',env('DP_STAGE_UNLOCK'))->set('branch',$b=env('DP_STAGE_BRANCH')?:get('branch'));
 }
