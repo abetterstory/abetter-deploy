@@ -421,6 +421,38 @@ task('hot', function () {
 	invoke('deploy:hot');
 });
 
+// ---
+
+task('deploy:app', function () {
+	$stage = get('stage');
+	$confirm = "Are you sure you want to deploy app with rsync to %s?";
+	if (in_array($stage,['production','stage'])) {
+		$ask = str_replace('%s',ucwords($stage),$confirm);
+		if (!askConfirmation($ask)) return false;
+	}
+	cd("{{ deploy_path }}");
+	writeRun("pwd","Deploy app prepare destination");
+	// ---
+	$dirs = ['app','config','database','routes'];
+	foreach ($dirs AS $dir) {
+		$dest = dirname($dir);
+		writeRunLocally("rsync -vr --exclude=cache --exclude=clockwork --links --quiet ./{$dir} {{ server }}:{{ deploy_path }}/{$dest}","rsync: {$dir}");
+	}
+	// ---
+	writeRun("php artisan cache:clear");
+	writeRun("php artisan route:clear");
+	writeRun("php artisan view:clear");
+	writeRun("php artisan config:clear");
+	writeRun("rm -rf storage/framework/sessions/* || true");
+	writeLine("Deploy app done!");
+});
+
+task('app', function () {
+	invoke('deploy:app');
+});
+
+// ---
+
 task('deploy:composer', function () {
 	$stage = get('stage');
 	$confirm = "Are you sure you want to composer-deploy with rsync to %s?";
