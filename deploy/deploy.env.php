@@ -41,7 +41,7 @@ add('writable_dirs', [
 ]);
 
 // Hosts
-localhost('local')->set('stage','local')->set('hostname','127.0.0.1')->set('server','127.0.0.1')->set('deploy_path','')->set('deploy_unlock',TRUE);
+localhost('local')->set('stage','local')->set('hostname','127.0.0.1')->set('server','127.0.0.1')->set('deploy_path',env('DP_LOCAL_PATH'))->set('deploy_unlock',TRUE);
 if ($s = env('DP_DEV_SERVER')) {
 	host('dev')->set('stage','dev')->set('hostname',$s)->set('server',$s)->set('deploy_path',env('DP_DEV_PATH'))->set('deploy_unlock',env('DP_DEV_UNLOCK'))->set('branch',$b=env('DP_DEV_BRANCH')?:get('branch'));
 }
